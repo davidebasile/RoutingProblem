@@ -1,0 +1,88 @@
+#reset;
+option times 2;
+option solver cplex;
+#option knitro_options 'outlev=1'; 
+#option solver ilogcp;
+
+
+model routeplanning.mod;
+data routeplanning.dat;
+
+#set to 1 edges of the graph (grid)
+for {i in 1..n}
+{	
+	#right
+	if (i mod 5 != 0) then 
+		{ 
+			let t[i,i+1]:=1;
+			let t[i+1,i]:=1;
+		}
+	
+	#left
+	if (i mod 5 != 1) then 
+	{	
+		let t[i,i-1]:=1;
+		let t[i-1,i]:=1;
+	}
+	
+	#up
+	if (i>5) then
+	{
+		let t[i,i-5]:=1;
+		let t[i-5,i]:=1;
+	}
+	
+	#down
+	if (i<21) then
+	{
+		let t[i,i+5]:=1;
+		let t[i+5,i]:=1;
+	}
+}
+
+#set failed tracks 1 over 10 probability of being failed
+for {i in 1..n}
+{
+	for {j in 1..n}
+	{
+		if (t[i,j] == 1) then 
+		{
+			if (ceil(Uniform(1,10))<=2) then let F[i,j]:=1; 
+		}
+	}
+}
+
+#set destination and location of each vehicle
+for {i in 1..u}
+{
+	#let location[i]:=ceil(Uniform(1,n));
+	#let destination[i]:=ceil(Uniform(1,n));
+	#repeat while destination[i]==location[i]
+	#{
+	#	let destination[i]:=ceil(Uniform(1,n));
+	#}
+}
+#data test.dat;
+solve;
+
+
+#print _slogconname[1];
+
+#print _scon[1];
+display {j in K, s in Q, d in Q:  x[1,j,s,d]>0} x[1,j,s,d];
+display {j in K, s in Q, d in Q:  x[2,j,s,d]>0} x[2,j,s,d];
+display {j in K, s in Q, d in Q:  x[3,j,s,d]>0} x[3,j,s,d];
+display {j in K, s in Q, d in Q:  x[4,j,s,d]>0} x[4,j,s,d];
+
+
+#display {j in K, s in Q, d in Q:  uxu[1,j,s,d]>0} uxu[1,j,s,d];
+#display {j in K, s in Q, q in Q, d in Q:  uxu2[1,j,s,q,d]>0} uxu2[1,j,s,q,d];
+
+
+
+display gamma;
+
+display {i in Q, j in Q: F[i,j]==1} F[i,j];
+#display {i in Q, j in Q: t[i,j]==1} t[i,j];
+display location;
+display destination;
