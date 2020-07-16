@@ -1,7 +1,7 @@
-# routingproblem
+# Dependable Dynamic Routing for Urban Transport Systems Through Integer Linear Programming
 
 
-AMPL model for the dependable dynamic vehicle routing problem, documentation available in `main.pdf` file. 
+AMPL model for the dependable dynamic vehicle routing problem, documentation available in `main.pdf` file.
 
 If you are using this repository, please cite our paper:
 
