@@ -5,7 +5,7 @@ AMPL model for the dependable dynamic vehicle routing problem, documentation ava
 
 If you are using this repository, please cite our paper:
 
-`@inproceedings{DBLP:conf/rssrail/BasileGG17,
+@inproceedings{DBLP:conf/rssrail/BasileGG17,
   author    = {Davide Basile and
                Felicita Di Giandomenico and
                Stefania Gnesi},
@@ -18,4 +18,4 @@ If you are using this repository, please cite our paper:
   year      = {2017},
   url       = {https://doi.org/10.1007/978-3-319-68499-4\_15},
   doi       = {10.1007/978-3-319-68499-4\_15}
-}`
+}
